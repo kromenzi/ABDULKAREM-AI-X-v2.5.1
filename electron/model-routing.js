@@ -1,4 +1,5 @@
 const fs=require('fs');
+const path=require('path');
 const {DEFAULT_ARENA_STATE_PATH,normalizeKind,finalScore}=require('./model-arena');
 
 const MODEL_PRIORITIES={
@@ -25,6 +26,7 @@ const MODEL_PRIORITIES={
   }
 };
 
+const DEFAULT_AUDIT_PATH=path.join(path.dirname(DEFAULT_ARENA_STATE_PATH),'routing-decisions-v2.6.jsonl');
 let arenaCache={path:'',mtimeMs:-1,data:null};
 function findInstalled(installed,wanted){
   const list=(installed||[]).map(String);
@@ -72,14 +74,26 @@ function fallbackChain({kind='general',performanceProfile='balanced',installed=[
   for(const name of list)add(name);
   return chain.slice(0,Math.max(1,Number(maxFallbacks||2)+1));
 }
+function auditDecision(record={},auditPath=process.env.ABDX_ROUTING_AUDIT_PATH||DEFAULT_AUDIT_PATH){
+  if(process.env.ABDX_ROUTING_AUDIT==='0')return;
+  try{
+    fs.mkdirSync(path.dirname(auditPath),{recursive:true});
+    fs.appendFileSync(auditPath,`${JSON.stringify({...record,at:new Date().toISOString()})}\n`,'utf8');
+  }catch{}
+}
 function selectModelFromInstalled({kind='general',performanceProfile='balanced',installed=[],preferred='auto',arenaState=null}={}){
   const list=(installed||[]).map(String).filter(Boolean);
   if(preferred&&preferred!=='auto'){
     const hit=list.find(x=>x.toLowerCase()===String(preferred).toLowerCase());
     if(hit)return hit;
   }
-  const adaptive=adaptiveCandidates({kind,installed:list,arenaState,performanceProfile});
-  if(adaptive.length)return adaptive[0].name;
+  const effectiveState=arenaState||readArenaState();
+  const adaptive=adaptiveCandidates({kind,installed:list,arenaState:effectiveState,performanceProfile});
+  if(adaptive.length){
+    const selected=adaptive[0].name;
+    if(!arenaState)auditDecision({taskType:normalizeKind(kind),selectedModel:selected,confidence:Math.max(0,Math.min(1,adaptive[0].score/100)),health:adaptive[0].health,mode:'adaptive',alternatives:adaptive.slice(1,3).map(x=>x.name)});
+    return selected;
+  }
   const profile=MODEL_PRIORITIES[performanceProfile]||MODEL_PRIORITIES.balanced;
   const priorities=profile[normalizeKind(kind)]||profile.general;
   for(const wanted of priorities){const hit=findInstalled(list,wanted);if(hit)return hit;}
@@ -100,4 +114,4 @@ function explainSelection(options={}){
 }
 function resetArenaCache(){arenaCache={path:'',mtimeMs:-1,data:null};}
 
-module.exports={MODEL_PRIORITIES,selectModelFromInstalled,adaptiveCandidates,fallbackChain,explainSelection,readArenaState,resetArenaCache};
+module.exports={MODEL_PRIORITIES,DEFAULT_AUDIT_PATH,selectModelFromInstalled,adaptiveCandidates,fallbackChain,explainSelection,readArenaState,auditDecision,resetArenaCache};
