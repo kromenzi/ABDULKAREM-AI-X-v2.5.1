@@ -4,7 +4,7 @@ const main=fs.readFileSync('electron/main.js','utf8');
 const preload=fs.readFileSync('electron/preload.js','utf8');
 const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
 
-assert.equal(pkg.version,'2.5.1');
+assert.equal(pkg.version,'2.6.0');
 assert.ok(main.includes("require('./intelligence-core')"));
 assert.ok(main.includes("require('./dag-executor')"));
 assert.ok(main.includes("ipcMain.handle('intelligence:status'"));
