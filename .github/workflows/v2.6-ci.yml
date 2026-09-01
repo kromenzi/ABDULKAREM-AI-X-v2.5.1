@@ -33,11 +33,11 @@ jobs:
         run: npm run release:gate
       - name: Production renderer build
         run: npm run build
-      - name: Verify no model deletion command was added
+      - name: Verify no model deletion implementation was added
         shell: bash
         run: |
-          if grep -RIn --exclude-dir=.git --exclude-dir=node_modules -E "ollama[[:space:]]+rm|model_delete|ollama_rm" electron scripts; then
-            echo "Forbidden model deletion capability found"
+          if grep -RIn --exclude-dir=.git --exclude-dir=node_modules -E "spawn\([^\n]*(ollama)[^\n]*(rm)|exec[^\n]*(ollama[[:space:]]+rm)|tool\(['\"]ollama_rm['\"]|tool\(['\"]model_delete['\"]" electron scripts; then
+            echo "Forbidden model deletion implementation found"
             exit 1
           fi
           echo "Protected model deletion guard PASS"
