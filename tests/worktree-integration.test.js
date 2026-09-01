@@ -1,0 +1,25 @@
+const fs=require('fs');
+const assert=require('assert');
+const main=fs.readFileSync('electron/main.js','utf8');
+const preload=fs.readFileSync('electron/preload.js','utf8');
+const ui=fs.readFileSync('src/main.jsx','utf8');
+const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+
+assert.equal(pkg.version,'2.5.1');
+assert.ok(main.includes("require('./worktree-manager')"));
+assert.ok(main.includes('prepareIsolatedAgentSandbox'));
+assert.ok(main.includes('finalizeIsolatedAgentSandbox'));
+assert.ok(main.includes('verified-worktree-merge'));
+assert.ok(main.includes('worktreeSandboxEnabled'));
+assert.ok(main.includes("ipcMain.handle('worktrees:status'"));
+assert.ok(main.includes("'/v1/worktrees/status'"));
+assert.ok(preload.includes('worktreesStatus'));
+assert.ok(preload.includes('worktreePreview'));
+assert.ok(ui.includes('Isolated Worktree Sandbox'));
+assert.ok(ui.includes('Verified Patch Max MB'));
+assert.ok(ui.includes('WorktreePanel'));
+assert.ok(!main.includes("tool('worktree_merge'"));
+assert.ok(!main.includes("tool('worktree_apply'"));
+assert.ok(main.includes("const PROTECTED_OLLAMA_MODELS = new Set(['qwen3-coder:30b'])"));
+assert.ok(!main.includes('ollama rm'));
+console.log('Worktree sandbox integration invariants passed');

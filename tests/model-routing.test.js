@@ -1,0 +1,11 @@
+const assert=require('assert');
+const {selectModelFromInstalled}=require('../electron/model-routing');
+const installed=['abdulkarem-general-sa:v2','qwen3:8b','alenzi-coder-pro-14b:latest','qwen2.5-coder:14b','qwen3-coder:30b','gemma4:26b'];
+assert.equal(selectModelFromInstalled({kind:'coding',performanceProfile:'balanced',installed}),'qwen3-coder:30b');
+assert.equal(selectModelFromInstalled({kind:'coding',performanceProfile:'max',installed}),'qwen3-coder:30b');
+assert.equal(selectModelFromInstalled({kind:'coding',performanceProfile:'eco',installed}),'qwen2.5-coder:14b');
+assert.equal(selectModelFromInstalled({kind:'coding',performanceProfile:'balanced',installed:installed.filter(x=>x!=='qwen3-coder:30b')}),'qwen2.5-coder:14b');
+assert.equal(selectModelFromInstalled({kind:'coding',performanceProfile:'balanced',installed,preferred:'alenzi-coder-pro-14b:latest'}),'alenzi-coder-pro-14b:latest');
+assert.equal(selectModelFromInstalled({kind:'vision',performanceProfile:'balanced',installed}),'gemma4:26b');
+assert.equal(selectModelFromInstalled({kind:'general',performanceProfile:'balanced',installed}),'abdulkarem-general-sa:v2');
+console.log('model-routing.test.js PASS');

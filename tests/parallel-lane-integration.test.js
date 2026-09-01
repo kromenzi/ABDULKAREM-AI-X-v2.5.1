@@ -1,0 +1,26 @@
+const fs=require('fs');
+const assert=require('assert');
+const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+const main=fs.readFileSync('electron/main.js','utf8');
+const preload=fs.readFileSync('electron/preload.js','utf8');
+const ui=fs.readFileSync('src/main.jsx','utf8');
+const intel=fs.readFileSync('electron/intelligence-core.js','utf8');
+
+assert.equal(pkg.version,'2.5.1');
+assert.ok(main.includes("require('./parallel-lane-manager')"));
+assert.ok(main.includes('parallelCodingLanesEnabled'));
+assert.ok(main.includes('runParallelCodingLanes'));
+assert.ok(main.includes('shouldUseParallelCodingLanes'));
+assert.ok(main.includes("ipcMain.handle('lanes:status'"));
+assert.ok(main.includes("'/v1/lanes/status'"));
+assert.ok(preload.includes('lanesStatus'));
+assert.ok(preload.includes('laneBundlePreview'));
+assert.ok(ui.includes('Parallel Isolated Coding Lanes'));
+assert.ok(ui.includes("rightTab === 'lanes'"));
+assert.ok(intel.includes('parallelIsolatedCodingLanes:true'));
+assert.ok(intel.includes('regionConflictDetection:true'));
+assert.ok(main.includes("const PROTECTED_OLLAMA_MODELS = new Set(['qwen3-coder:30b'])"));
+assert.ok(!main.includes('ollama rm'));
+assert.ok(!main.includes("tool('lane_merge'"));
+assert.ok(!main.includes("tool('lane_apply'"));
+console.log('parallel-lane-integration.test.js PASS');

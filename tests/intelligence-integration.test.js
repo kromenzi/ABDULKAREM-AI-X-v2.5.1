@@ -1,0 +1,28 @@
+const fs=require('fs');
+const assert=require('assert');
+const main=fs.readFileSync('electron/main.js','utf8');
+const preload=fs.readFileSync('electron/preload.js','utf8');
+const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+
+assert.equal(pkg.version,'2.5.1');
+assert.ok(main.includes("require('./intelligence-core')"));
+assert.ok(main.includes("require('./dag-executor')"));
+assert.ok(main.includes("ipcMain.handle('intelligence:status'"));
+assert.ok(main.includes("ipcMain.handle('intelligence:plan'"));
+assert.ok(main.includes("'/v1/intelligence/status'"));
+assert.ok(main.includes("'/v1/intelligence/plan'"));
+assert.ok(main.includes('intelligence:result.intelligence || null'));
+assert.ok(main.includes("[path.join('intelligence','state.json'),path.posix.join('intelligence','state.json')]"));
+assert.ok(main.includes("'intelligence/state.json'"));
+assert.ok(preload.includes('intelligenceStatus'));
+assert.ok(preload.includes('intelligencePlan'));
+assert.ok(preload.includes('dagStatus'));
+assert.ok(preload.includes('dagCancel'));
+assert.ok(main.includes("ipcMain.handle('dag:status'"));
+assert.ok(main.includes("'/v1/dag/status'"));
+assert.ok(main.includes("mutationKey:`workspace:${path.resolve(payload.workspace)}`"));
+assert.ok(main.includes("const PROTECTED_OLLAMA_MODELS = new Set(['qwen3-coder:30b'])"));
+assert.ok(!main.includes("tool('integration_approve'"));
+assert.ok(!main.includes('ollama rm'));
+assert.ok(main.includes('Cloud approval/rejection is UI-only'));
+console.log('Intelligence integration invariants passed');

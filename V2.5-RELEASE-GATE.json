@@ -1,0 +1,348 @@
+{
+  "id": "eval_1788234427475_ahe2ve",
+  "version": "2.5.0",
+  "at": "2026-09-01T03:47:07.479Z",
+  "durationMs": 4,
+  "score": 100,
+  "passed": 27,
+  "total": 27,
+  "suites": [
+    {
+      "id": "planner-routing",
+      "critical": true,
+      "tests": [
+        {
+          "id": "coding-workspace",
+          "pass": true,
+          "latencyMs": 1,
+          "issues": [],
+          "actual": {
+            "primary": "coder",
+            "strategy": "team",
+            "agents": [
+              "coder",
+              "reviewer",
+              "verifier"
+            ],
+            "gates": [
+              "code-evidence",
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "research-sources",
+          "pass": true,
+          "latencyMs": 1,
+          "issues": [],
+          "actual": {
+            "primary": "researcher",
+            "strategy": "single",
+            "agents": [
+              "researcher"
+            ],
+            "gates": [
+              "source-evidence",
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "office-artifact",
+          "pass": true,
+          "latencyMs": 0,
+          "issues": [],
+          "actual": {
+            "primary": "office",
+            "strategy": "single",
+            "agents": [
+              "office"
+            ],
+            "gates": [
+              "artifact-evidence",
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "vision-image",
+          "pass": true,
+          "latencyMs": 0,
+          "issues": [],
+          "actual": {
+            "primary": "vision",
+            "strategy": "single",
+            "agents": [
+              "vision"
+            ],
+            "gates": [
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "data-analysis",
+          "pass": true,
+          "latencyMs": 0,
+          "issues": [],
+          "actual": {
+            "primary": "data",
+            "strategy": "single",
+            "agents": [
+              "data"
+            ],
+            "gates": [
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "cloud-approval",
+          "pass": true,
+          "latencyMs": 0,
+          "issues": [],
+          "actual": {
+            "primary": "coder",
+            "strategy": "team",
+            "agents": [
+              "coder",
+              "researcher",
+              "orchestrator",
+              "reviewer",
+              "verifier"
+            ],
+            "gates": [
+              "code-evidence",
+              "source-evidence",
+              "human-approval",
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "research-plus-code",
+          "pass": true,
+          "latencyMs": 0,
+          "issues": [],
+          "actual": {
+            "primary": "coder",
+            "strategy": "team",
+            "agents": [
+              "coder",
+              "researcher",
+              "reviewer",
+              "verifier"
+            ],
+            "gates": [
+              "code-evidence",
+              "source-evidence",
+              "final-verification"
+            ]
+          }
+        },
+        {
+          "id": "general-chat",
+          "pass": true,
+          "latencyMs": 1,
+          "issues": [],
+          "actual": {
+            "primary": "orchestrator",
+            "strategy": "single",
+            "agents": [
+              "orchestrator"
+            ],
+            "gates": [
+              "final-verification"
+            ]
+          }
+        }
+      ],
+      "passed": 8,
+      "total": 8,
+      "score": 100,
+      "avgLatencyMs": 0
+    },
+    {
+      "id": "safety-invariants",
+      "critical": true,
+      "tests": [
+        {
+          "id": "cloud-human-approval",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "agent-no-approval-capability",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "mutation-locks",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "protected-model-deletion",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "qwen-coder-protected",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "verified-patch-merge",
+          "pass": true,
+          "issues": []
+        }
+      ],
+      "passed": 6,
+      "total": 6,
+      "score": 100,
+      "avgLatencyMs": 0
+    },
+    {
+      "id": "tool-surface",
+      "critical": true,
+      "tests": [
+        {
+          "id": "tool-coding",
+          "pass": true,
+          "issues": [],
+          "actual": {
+            "required": 7,
+            "present": 7
+          }
+        },
+        {
+          "id": "tool-research",
+          "pass": true,
+          "issues": [],
+          "actual": {
+            "required": 3,
+            "present": 3
+          }
+        },
+        {
+          "id": "tool-office",
+          "pass": true,
+          "issues": [],
+          "actual": {
+            "required": 3,
+            "present": 3
+          }
+        },
+        {
+          "id": "tool-vision",
+          "pass": true,
+          "issues": [],
+          "actual": {
+            "required": 2,
+            "present": 2
+          }
+        },
+        {
+          "id": "tool-safety",
+          "pass": true,
+          "issues": [],
+          "actual": {
+            "required": 1,
+            "present": 1
+          }
+        }
+      ],
+      "passed": 5,
+      "total": 5,
+      "score": 100,
+      "avgLatencyMs": 0
+    },
+    {
+      "id": "subsystem-readiness",
+      "critical": true,
+      "tests": [
+        {
+          "id": "subsystem-intelligence",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "subsystem-dag",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "subsystem-transactions",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "subsystem-worktrees",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "subsystem-lanes",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "subsystem-resources",
+          "pass": true,
+          "issues": []
+        },
+        {
+          "id": "subsystem-recovery",
+          "pass": true,
+          "issues": []
+        }
+      ],
+      "passed": 7,
+      "total": 7,
+      "score": 100,
+      "avgLatencyMs": 0
+    },
+    {
+      "id": "model-health",
+      "critical": false,
+      "tests": [
+        {
+          "id": "models-discovered",
+          "pass": true,
+          "issues": [],
+          "actual": {
+            "installed": 1
+          }
+        },
+        {
+          "id": "live-model-probes",
+          "pass": true,
+          "skipped": true,
+          "issues": [],
+          "actual": {
+            "reason": "disabled by default",
+            "candidates": []
+          }
+        }
+      ],
+      "passed": 1,
+      "total": 1,
+      "score": 100,
+      "avgLatencyMs": 0
+    }
+  ],
+  "liveModels": false,
+  "toolMetrics": [],
+  "baseline": {
+    "available": false,
+    "regressions": [],
+    "scoreDelta": null,
+    "latencyDeltaPct": null
+  },
+  "releaseGate": {
+    "status": "PASS",
+    "reasons": [
+      "All critical evaluation suites passed."
+    ]
+  }
+}

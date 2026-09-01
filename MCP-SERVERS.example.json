@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "servers": [
+    {
+      "name": "example-server",
+      "command": "npx",
+      "args": ["-y", "@your/mcp-server"],
+      "env": {},
+      "enabled": false
+    }
+  ]
+}

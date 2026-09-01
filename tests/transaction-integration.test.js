@@ -1,0 +1,25 @@
+const fs=require('fs');
+const assert=require('assert');
+const main=fs.readFileSync('electron/main.js','utf8');
+const preload=fs.readFileSync('electron/preload.js','utf8');
+const ui=fs.readFileSync('src/main.jsx','utf8');
+const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+
+assert.equal(pkg.version,'2.5.1');
+assert.ok(main.includes("require('./transaction-manager')"));
+assert.ok(main.includes('beginAgentTransaction'));
+assert.ok(main.includes('finalizeAgentTransaction'));
+assert.ok(main.includes('Automatic rollback: verification gate failed.'));
+assert.ok(main.includes("ipcMain.handle('transactions:status'"));
+assert.ok(main.includes("ipcMain.handle('transactions:diff'"));
+assert.ok(main.includes("ipcMain.handle('transactions:rollback'"));
+assert.ok(main.includes("'/v1/transactions/status'"));
+assert.ok(preload.includes('transactionsStatus'));
+assert.ok(preload.includes('transactionPreviewFile'));
+assert.ok(ui.includes('Transactional Workspace'));
+assert.ok(ui.includes('Rollback Active'));
+assert.ok(!main.includes("tool('transaction_commit'"));
+assert.ok(!main.includes("tool('transaction_rollback'"));
+assert.ok(main.includes("const PROTECTED_OLLAMA_MODELS = new Set(['qwen3-coder:30b'])"));
+assert.ok(!main.includes('ollama rm'));
+console.log('Transactional workspace integration invariants passed');
