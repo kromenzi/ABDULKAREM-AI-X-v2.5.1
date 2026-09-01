@@ -7,7 +7,7 @@ const install=fs.readFileSync('INSTALL-WINDOWS.ps1','utf8');
 const builder=fs.readFileSync('BUILD-WINDOWS-EXE.ps1','utf8');
 const util=require('./test-utils');
 
-assert.equal(pkg.version,'2.5.1');
+assert.equal(pkg.version,'2.6.0');
 for(const [name,version] of Object.entries({...pkg.dependencies,...pkg.devDependencies})){
   assert.ok(version && version!=='latest',`${name} must not use latest`);
   assert.ok(/^\d+\.\d+\.\d+(?:[-+].+)?$/.test(version),`${name} must be exact-pinned, got ${version}`);

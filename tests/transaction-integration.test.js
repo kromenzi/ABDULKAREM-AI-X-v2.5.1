@@ -5,7 +5,7 @@ const preload=fs.readFileSync('electron/preload.js','utf8');
 const ui=fs.readFileSync('src/main.jsx','utf8');
 const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
 
-assert.equal(pkg.version,'2.5.1');
+assert.equal(pkg.version,'2.6.0');
 assert.ok(main.includes("require('./transaction-manager')"));
 assert.ok(main.includes('beginAgentTransaction'));
 assert.ok(main.includes('finalizeAgentTransaction'));

@@ -6,7 +6,7 @@ const preload=fs.readFileSync('electron/preload.js','utf8');
 const ui=fs.readFileSync('src/main.jsx','utf8');
 const intel=fs.readFileSync('electron/intelligence-core.js','utf8');
 
-assert.equal(pkg.version,'2.5.1');
+assert.equal(pkg.version,'2.6.0');
 assert.ok(main.includes("require('./parallel-lane-manager')"));
 assert.ok(main.includes('parallelCodingLanesEnabled'));
 assert.ok(main.includes('runParallelCodingLanes'));

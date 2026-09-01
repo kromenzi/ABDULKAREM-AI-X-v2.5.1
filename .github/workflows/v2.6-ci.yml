@@ -1,0 +1,43 @@
+name: ABDULKAREM AI X v2.6 CI
+
+on:
+  push:
+    branches: [v2.6]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: npm ci
+      - name: Source and regression checks
+        run: npm run check
+      - name: Release gate
+        run: npm run release:gate
+      - name: Production renderer build
+        run: npm run build
+      - name: Verify no model deletion implementation was added
+        shell: bash
+        run: |
+          if grep -RIn --exclude-dir=.git --exclude-dir=node_modules -E "spawn\([^\n]*(ollama)[^\n]*(rm)|exec[^\n]*(ollama[[:space:]]+rm)|tool\(['\"]ollama_rm['\"]|tool\(['\"]model_delete['\"]" electron scripts; then
+            echo "Forbidden model deletion implementation found"
+            exit 1
+          fi
+          echo "Protected model deletion guard PASS"

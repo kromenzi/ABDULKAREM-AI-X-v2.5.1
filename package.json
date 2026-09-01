@@ -1,20 +1,22 @@
 {
   "name": "abdulkarem-ai-x",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "private": true,
-  "description": "ABDULKAREM AI X OMNI PRO v2.5.1 — Windows Stability Hotfix with deterministic direct dependency pins, CRLF-safe tests, hardened Electron sandbox, browser compatibility fallback, release evaluation gates, parallel isolated coding lanes, transactions, DAG runtime, Resource Governor, Recovery, Automation, Workflows, Memory, Coding Agent, Office Pro, RAG, Vision, Deep Research, MCP and OpenAI-compatible API",
+  "description": "ABDULKAREM AI X OMNI PRO v2.6 — Model Arena and adaptive local routing on top of the Codex-fixed v2.5.1 interface, with release evaluation gates, parallel isolated coding lanes, transactions, DAG runtime, Resource Governor, Recovery, Automation, Workflows, Memory, Coding Agent, Office Pro, RAG, Vision, Deep Research, MCP and OpenAI-compatible API",
   "main": "electron/main.js",
   "scripts": {
     "dev": "node scripts/dev-launcher.js",
     "build": "vite build",
     "start": "electron .",
-    "check": "node --check electron/main.js && node --check electron/preload.js && node --check electron/intelligence-core.js && node --check electron/dag-executor.js && node --check electron/transaction-manager.js && node --check electron/worktree-manager.js && node --check electron/parallel-lane-manager.js && node --check electron/evaluation-harness.js && node --check electron/resource-governor.js && node --check electron/model-routing.js && node --check electron/runtime-manager.js && node --check electron/recovery-manager.js && node --check electron/integrations.js && node --check electron/workflow-manager.js && node --check electron/automation-manager.js && node --check scripts/dev-launcher.js && node tests/windows-stability.test.js && node tests/ui-layout-stability.test.js && node tests/model-routing.test.js && node tests/intelligence-core.test.js && node tests/intelligence-integration.test.js && node tests/dag-executor.test.js && node tests/transaction-manager.test.js && node tests/transaction-integration.test.js && node tests/worktree-manager.test.js && node tests/parallel-lane-manager.test.js && node tests/parallel-lane-region-merge.test.js && node tests/parallel-lane-integration.test.js && node tests/evaluation-harness.test.js && node tests/worktree-integration.test.js && node tests/worktree-transaction-merge.test.js && node tests/resource-governor.test.js && node tests/jsx-parse.test.js && python -m py_compile python/office_worker.py python/knowledge_worker.py python/memory_worker.py",
+    "arena": "node scripts/model-arena.js",
+    "arena:dry": "node scripts/model-arena.js --dry-run",
+    "check": "node --check electron/main.js && node --check electron/preload.js && node --check electron/intelligence-core.js && node --check electron/dag-executor.js && node --check electron/transaction-manager.js && node --check electron/worktree-manager.js && node --check electron/parallel-lane-manager.js && node --check electron/evaluation-harness.js && node --check electron/model-arena.js && node --check electron/resource-governor.js && node --check electron/model-routing.js && node --check electron/runtime-manager.js && node --check electron/recovery-manager.js && node --check electron/integrations.js && node --check electron/workflow-manager.js && node --check electron/automation-manager.js && node --check scripts/dev-launcher.js && node --check scripts/model-arena.js && node tests/windows-stability.test.js && node tests/ui-layout-stability.test.js && node tests/model-routing.test.js && node tests/model-arena.test.js && node tests/adaptive-routing.test.js && node tests/intelligence-core.test.js && node tests/intelligence-integration.test.js && node tests/dag-executor.test.js && node tests/transaction-manager.test.js && node tests/transaction-integration.test.js && node tests/worktree-manager.test.js && node tests/parallel-lane-manager.test.js && node tests/parallel-lane-region-merge.test.js && node tests/parallel-lane-integration.test.js && node tests/evaluation-harness.test.js && node tests/worktree-integration.test.js && node tests/worktree-transaction-merge.test.js && node tests/resource-governor.test.js && node tests/jsx-parse.test.js && python -m py_compile python/office_worker.py python/knowledge_worker.py python/memory_worker.py",
     "dist:win": "npm run build && electron-builder --win nsis",
     "dist:portable": "npm run build && electron-builder --win portable",
     "start:background": "electron . --background",
     "dev:background": "node scripts/dev-launcher.js --background",
     "release:gate": "npm run check && node scripts/release-gate.js",
-    "check:windows": "node tests/windows-stability.test.js && node tests/ui-layout-stability.test.js && node tests/model-routing.test.js"
+    "check:windows": "node tests/windows-stability.test.js && node tests/ui-layout-stability.test.js && node tests/model-routing.test.js && node tests/model-arena.test.js && node tests/adaptive-routing.test.js"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.1.1",
@@ -50,31 +52,13 @@
       "VERSION.json"
     ],
     "extraResources": [
-      {
-        "from": "python",
-        "to": "python"
-      },
-      {
-        "from": "skills",
-        "to": "skills"
-      },
-      {
-        "from": "assets",
-        "to": "assets"
-      }
+      {"from":"python","to":"python"},
+      {"from":"skills","to":"skills"},
+      {"from":"assets","to":"assets"}
     ],
-    "directories": {
-      "output": "release"
-    },
+    "directories": {"output":"release"},
     "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
+      "target": [{"target":"nsis","arch":["x64"]}],
       "artifactName": "ABDULKAREM-AI-X-Setup-${version}.${ext}"
     },
     "nsis": {
